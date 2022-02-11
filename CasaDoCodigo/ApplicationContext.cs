@@ -10,11 +10,6 @@ namespace CasaDoCodigo
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Pedido> Pedidos { get; set; }
-        public DbSet<Cadastro> Cadastros { get; set; }
-        public DbSet<ItemPedido> ItemPedido { get; set; }
-
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
@@ -24,6 +19,17 @@ namespace CasaDoCodigo
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Produto>().HasKey(t => t.Id);
+
+            modelBuilder.Entity<Pedido>().HasKey(t => t.Id);
+            modelBuilder.Entity<Pedido>().HasMany(t => t.Itens).WithOne(t => t.Pedido);
+            modelBuilder.Entity<Pedido>().HasOne(t => t.Cadastro).WithOne(t => t.Pedido);
+
+            modelBuilder.Entity<ItemPedido>().HasKey(t => t.Id);
+            modelBuilder.Entity<ItemPedido>().HasOne(t => t.Pedido);
+            modelBuilder.Entity<ItemPedido>().HasOne(t => t.Produto);
+
+            modelBuilder.Entity<Cadastro>().HasKey(t => t.Id);
+            modelBuilder.Entity<Cadastro>().HasOne(t => t.Pedido);
         }
     }
 }
