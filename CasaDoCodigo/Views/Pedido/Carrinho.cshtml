@@ -36,14 +36,15 @@
                 <div class="col-md-2 text-center">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button class="btn btn-default">
+                            <button class="btn btn-default" onclick="carrinho.clickDecremento(this)">
                                 <span class="glyphicon-minus"></span>
                             </button>
                         </span>
                         <input type="text" value="@(item.Quantidade)"
-                               class="form-control text-center" />
+                               class="form-control text-center" 
+                               onblur="carrinho.updateQuantidade(this)"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" onclick="clickIncremento(this)">
+                            <button class="btn btn-default" onclick="carrinho.clickIncremento(this)">
                                 <span class="glyphicon-plus"></span>
                             </button>
                         </span>
@@ -88,12 +89,6 @@
 
 @section Scripts
 { 
-    <script type="text/javascript">
-        function clickIncremento(btn) {
-            var linhaDoItem = $(btn).parents('[item-id]');
-            var itemId = $(linhaDoItem).attr('item-id');
-            var novaQtde = $(linhaDoItem).find('input').val();
-            debugger;
-        }
+    <script src="~/js/carrinho.js">
     </script>
 }
