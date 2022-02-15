@@ -17,6 +17,7 @@ namespace CasaDoCodigo.Controllers
             _produtoRepository = produtoRepository;
             _pedidoRepository = pedidoRepository;
             _itemPedidoRepository = itemPedidoRepository;
+            
         }
 
         public IActionResult Carrossel()
@@ -37,13 +38,23 @@ namespace CasaDoCodigo.Controllers
 
         public IActionResult Cadastro()
         {
-            return View();
+            var pedido = _pedidoRepository.GetPedido();
+            if(pedido == null)
+            {
+                return RedirectToAction("Carrossel");
+            }
+
+            return View(pedido.Cadastro);
         }
 
-        public IActionResult Resumo()
+        public IActionResult Resumo(Cadastro cadastro)
         {
-            var pedido = _pedidoRepository.GetPedido();
-            return View(pedido);
+            if (ModelState.IsValid)
+            {
+                return View(_pedidoRepository.UpdateCadastro(cadastro));
+            }
+
+            return RedirectToAction("Cadastro");
         }
 
         [HttpPost]
